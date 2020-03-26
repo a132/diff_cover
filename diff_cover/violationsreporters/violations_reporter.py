@@ -11,7 +11,7 @@ import itertools
 import posixpath
 from diff_cover.command_runner import run_command_for_code
 from diff_cover.git_path import GitPathTool
-from diff_cover.violationsreporters.base import BaseViolationReporter, Violation, RegexBasedDriver, QualityDriver
+from diff_cover.violationsreporters.base import BaseViolationReporter, Violation, BranchInfo, RegexBasedDriver, QualityDriver
 
 
 class XmlCoverageReporter(BaseViolationReporter):
@@ -176,6 +176,7 @@ class XmlCoverageReporter(BaseViolationReporter):
             # A line is measured if it is measured in any of the reports, so
             # we take set union each time and can just start with the empty set
             measured = set()
+            branches = None
 
             # Loop through the files that contain the xml roots
             for xml_document in self._xml_roots:
@@ -189,6 +190,8 @@ class XmlCoverageReporter(BaseViolationReporter):
                     line_nodes = self._get_src_path_line_nodes_jacoco(xml_document, src_path)
                     _number = 'nr'
                     _hits = 'ci'
+                    _cb = 'cb'
+                    _mb = 'mb'
                 else:
                     # https://github.com/cobertura/web/blob/master/htdocs/xml/coverage-04.dtd
                     line_nodes = self._get_src_path_line_nodes_cobertura(xml_document, src_path)
@@ -213,6 +216,17 @@ class XmlCoverageReporter(BaseViolationReporter):
                         for line in line_nodes
                         if int(line.get(_hits, 0)) == 0
                     }
+                if _mb and _cb:
+                    if branches is None:
+                        branches = {
+                            BranchInfo(int(line.get(_number)), (int(line.get(_cb, 0)), int(line.get(_mb, 0))))
+                            for line in line_nodes
+                        }
+                    else:
+                        branches = branches | {
+                            BranchInfo(int(line.get(_number)), (int(line.get(_cb, 0)), int(line.get(_mb, 0))))
+                            for line in line_nodes
+                        }
 
                 # Measured is the union of itself and the new measured
                 measured = measured | {
@@ -224,7 +238,7 @@ class XmlCoverageReporter(BaseViolationReporter):
             if violations is None:
                 violations = set()
 
-            self._info_cache[src_path] = (violations, measured)
+            self._info_cache[src_path] = (violations, measured, branches)
 
     def violations(self, src_path):
         """
@@ -242,6 +256,13 @@ class XmlCoverageReporter(BaseViolationReporter):
         """
         self._cache_file(src_path)
         return self._info_cache[src_path][1]
+
+    def branch_lines(self, src_path):
+        """
+        See base class docstring.
+        """
+        self._cache_file(src_path)
+        return self._info_cache[src_path][2]
 
 pycodestyle_driver = RegexBasedDriver(
     name='pycodestyle',

@@ -13,6 +13,7 @@ import os
 from diff_cover.command_runner import execute, run_command_for_code
 
 Violation = namedtuple('Violation', 'line, message')
+BranchInfo = namedtuple('BranchInfo', 'line, branch')
 
 
 class QualityReporterError(Exception):

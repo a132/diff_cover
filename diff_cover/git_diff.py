@@ -44,6 +44,7 @@ class GitDiffTool(object):
         Raises a `GitDiffError` if `git diff` outputs anything
         to stderr.
         """
+        execute(['cd', '/Users/ray/workspace2/inventoryv2'])
         return execute([
             'git',
             '-c', 'diff.mnemonicprefix=no',

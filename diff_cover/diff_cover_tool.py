@@ -8,7 +8,9 @@ import argparse
 import six
 
 from xml.etree import cElementTree
-
+# sys.path.append("..")
+# import pdb; pdb.set_trace()
+sys.path.append('/Users/ray/workspace2/diff_cover2')
 from diff_cover import DESCRIPTION, VERSION
 from diff_cover.diff_reporter import GitDiffReporter
 from diff_cover.git_diff import GitDiffTool
