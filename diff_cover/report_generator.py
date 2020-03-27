@@ -237,7 +237,7 @@ class BaseReportGenerator(object):
 
 
 # Set up the template environment
-TEMPLATE_LOADER = PackageLoader(__package__)
+TEMPLATE_LOADER = PackageLoader('diff_cover')
 TEMPLATE_ENV = Environment(loader=TEMPLATE_LOADER,
                            trim_blocks=True,
                            lstrip_blocks=True)
