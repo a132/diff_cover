@@ -130,6 +130,8 @@ class BaseReportGenerator(object):
                 mb_number = branch_line.branch[1]
                 total_branch += mb_number + cb_number
                 cover_branch += cb_number
+        if total_branch <= 0:
+            return None
 
         return 100 - float(cover_branch) / total_branch * 100
 

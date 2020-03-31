@@ -7,7 +7,7 @@ from diff_cover import VERSION, DESCRIPTION
 REQUIREMENTS = [line.strip() for line in
                 open(os.path.join("requirements", "requirements.txt")).readlines()]
 setup(
-    name='diff_cover_ut',
+    name='diff-cover-ut',
     version=VERSION,
     author='Matt Bachmann',
     url='https://github.com/Bachmann1234/diff-cover',
