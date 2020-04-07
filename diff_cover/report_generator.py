@@ -128,10 +128,14 @@ class BaseReportGenerator(object):
                 line_number = branch_line.line
                 cb_number = branch_line.branch[0]
                 mb_number = branch_line.branch[1]
+                if mb_number == 0:
+                    continue
                 total_branch += mb_number + cb_number
                 cover_branch += cb_number
         if total_branch <= 0:
             return None
+        print("total_branch:" + str(total_branch))
+        print("cover_branch:" + str(cover_branch))
 
         return 100 - float(cover_branch) / total_branch * 100
 

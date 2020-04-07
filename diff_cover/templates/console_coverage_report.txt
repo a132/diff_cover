@@ -14,7 +14,7 @@ Diff: {{ diff_name }}
 Total:   {{ total_num_lines }} line{{ total_num_lines|pluralize }}
 Missing: {{ total_num_violations }} line{{ total_num_violations|pluralize }}
 Coverage: {{ total_percent_covered }}%
-Branch Coverage: {{ total_percent_covered }}%
+Branch Coverage: {{ total_percent_branch_covered }}%
 -------------
 {% else %}
 No lines with coverage information in this diff.
