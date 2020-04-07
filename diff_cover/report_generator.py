@@ -137,7 +137,7 @@ class BaseReportGenerator(object):
         print("total_branch:" + str(total_branch))
         print("cover_branch:" + str(cover_branch))
 
-        return round(100 - float(cover_branch) / total_branch * 100, 2)
+        return round(float(cover_branch) / total_branch * 100, 2)
 
     def violation_lines(self, src_path):
         """
