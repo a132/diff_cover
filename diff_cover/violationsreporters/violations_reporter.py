@@ -216,17 +216,16 @@ class XmlCoverageReporter(BaseViolationReporter):
                         for line in line_nodes
                         if int(line.get(_hits, 0)) == 0
                     }
-                if _mb and _cb:
-                    if branches is None:
-                        branches = {
-                            BranchInfo(int(line.get(_number)), (int(line.get(_cb, 0)), int(line.get(_mb, 0))))
-                            for line in line_nodes
-                        }
-                    else:
-                        branches = branches | {
-                            BranchInfo(int(line.get(_number)), (int(line.get(_cb, 0)), int(line.get(_mb, 0))))
-                            for line in line_nodes
-                        }
+                if branches is None:
+                    branches = {
+                        BranchInfo(int(line.get(_number)), (int(line.get(_cb, 0)), int(line.get(_mb, 0))))
+                        for line in line_nodes
+                    }
+                else:
+                    branches = branches | {
+                        BranchInfo(int(line.get(_number)), (int(line.get(_cb, 0)), int(line.get(_mb, 0))))
+                        for line in line_nodes
+                    }
 
                 # Measured is the union of itself and the new measured
                 measured = measured | {

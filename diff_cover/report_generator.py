@@ -23,7 +23,13 @@ class DiffViolations(object):
             if violation.line in self.lines
         }
 
-        self.branch_lines = branch_lines
+        if branch_lines:
+            self.branch_lines = {
+                branch_line for branch_line in branch_lines
+                if branch_line.line in diff_lines
+            }
+        else:
+            self.branch_lines = []
 
         # By convention, a violation reporter
         # can return `None` to indicate that all lines are "measured"
@@ -171,7 +177,7 @@ class BaseReportGenerator(object):
 
         branch_lines = diff_violations.branch_lines
         if not branch_lines:
-            return None
+            return []
         line_numbers = set()
         for branch_line in branch_lines:
             line_number = branch_line.line
